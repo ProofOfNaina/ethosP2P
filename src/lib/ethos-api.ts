@@ -4,6 +4,8 @@ const ETHOS_API_CONFIG = {
   clientName: 'ethos-p2p-platform'
 };
 
+
+
 export interface SocialAccount {
   platform: 'twitter' | 'discord';
   username: string;
@@ -16,10 +18,10 @@ export interface EthosScoreData {
 }
 
 export const ethosAPI = {
-  fetchScoreByUserkey: async (userkey: string): Promise<number> => {
+  fetchScoreByUserkey: async (userkey: string): Promise<string> => {
     try {
       const response = await fetch(
-        `${ETHOS_API_CONFIG.baseUrl}/score/userkey?userkey=${encodeURIComponent(userkey)}`,
+        `${ETHOS_API_CONFIG.baseUrl}/score/address?address=${address}`,
         {
           method: 'GET',
           headers: {
@@ -29,7 +31,7 @@ export const ethosAPI = {
         }
       );
       if (!response.ok) {
-        if (response.status === 404) return 1000;
+        if (response.status === 404) return 2000;
         throw new Error(`Ethos API error: ${response.status}`);
       }
       const data = await response.json();
@@ -65,7 +67,7 @@ export const ethosAPI = {
       return scores;
     } catch (err) {
       console.error('Ethos fetchScoresByUserkeys failed:', err);
-      return Object.fromEntries(userkeys.map(k => [k, 1000]));
+      return Object.fromEntries(userkeys.map(k => [k, 1700]));
     }
   },
 
